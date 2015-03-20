@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension id="conditional_fields" status="experimental" xmlns="http://symphony-cms.com/schemas/extension/1.0">
+	<name>Conditional Fields</name>
+	<description>Allows fields to be hidden or prefilled using javascript depending on values of other fields</description>
+	<repo type="github">https://github.com/jonmifsud/conditional_fields</repo>
+	<authors>
+		<author>
+			<name symphony="gunglien">Jonathan Mifsud</name>
+			<email>info@jonmifsud.com</email>
+		</author>
+	</authors>
+	<releases>
+		<release version="0.1" date="2015-03-20" min="2.3" max="2.6.x" />
+	</releases>
+</extension>
