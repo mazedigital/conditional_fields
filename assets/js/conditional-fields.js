@@ -18,11 +18,32 @@ jQuery(function($) {
 					if (field == 'condition') continue;
 
 					fieldOptions = event.data.options[field];
+					$field = $('#field-' + field);
 
 					if (fieldOptions.visible && fieldOptions.visible == 'no'){
-						$('#field-' + field).hide();
+						$field.hide();
 					} else {
-						$('#field-' + field).show();						
+						$field.show();
+
+						if ($field.hasClass('field-dynamictextgroup')){
+							for(var key in fieldOptions.key) {
+								$key = $field.find('.frame li.dtg .field-key').filter(function() { return $(this).val() === fieldOptions.key[key] });
+								console.log($key);
+								if ($key.length == 0){
+									if ($field.find('.frame li.dtg .field-key').eq(0).val() == ""){
+										//just place in the first item
+										$field.find('.frame li.dtg .field-key').eq(0).val(fieldOptions.key[key])
+									} else {
+										//clone the duplicator and add a key value
+										$newItem = $field.find('.frame li.template').clone();
+										$newItem.find('.field-key').val(fieldOptions.key[key]);
+										$newItem.removeClass().addClass('dtg');
+										$field.find('.frame li.template').before($newItem);
+									}
+								}
+								console.log(fieldOptions.key[key]);
+							}
+						}
 					}
 				}
 			}
