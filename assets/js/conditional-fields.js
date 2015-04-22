@@ -44,6 +44,13 @@ jQuery(function($) {
 								console.log(fieldOptions.key[key]);
 							}
 						}
+
+						if ($field.hasClass('field-association')){
+							if (fieldOptions.filters){
+								Symphony.Extensions.AssociationUISelector.updateFilters(field,fieldOptions.filters);
+								// $field.data('filters',fieldOptions.filters);
+							}
+						}
 					}
 				}
 			}
