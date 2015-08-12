@@ -6,6 +6,10 @@ jQuery(function($) {
 		//reset all filters to start with
 		$('.field').show();
 
+		//switch back to original labels if any renamed
+		$('.field').find('.alt-label').remove();
+		$('.field').find('.original-label').show();
+
 		if ($this.val() == event.data.value){
 			event.stopImmediatePropagation();
 
@@ -19,6 +23,22 @@ jQuery(function($) {
 
 					fieldOptions = event.data.options[field];
 					$field = $('#field-' + field);
+
+					if (fieldOptions.rename){
+						$label = $field.find('label');
+						if ($field.find('.original-label').length == 0){
+							$labelCopy = $label.clone();
+							$labelCopy.children().remove();
+							$originalLabel = '<span class="original-label">' + $.trim($labelCopy.text()) + '</span>';
+							$label.prepend($originalLabel);
+							$label.contents()
+									.filter(function() {
+										return this.nodeType === 3; //Node.TEXT_NODE
+									}).eq(0).remove();
+						}
+						$label.find('.original-label').hide();
+						$label.prepend('<span class="alt-label">' + fieldOptions.rename + '</span>');
+					}
 
 					if (fieldOptions.visible && fieldOptions.visible == 'no'){
 						$field.hide();
