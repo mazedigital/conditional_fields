@@ -1,7 +1,11 @@
 jQuery(function($) {
 
-	function processCondition(event){
+	function processCondition(event,processFilters){
 		$this = $(this);
+
+		if (typeof(processFilters) == 'undefined'){
+			processFilters = true;
+		}
 
 		//reset all filters to start with
 		$('.field').show();
@@ -65,7 +69,7 @@ jQuery(function($) {
 							}
 						}
 
-						if ($field.hasClass('field-association')){
+						if ($field.hasClass('field-association') && processFilters){
 							if (fieldOptions.filters){
 								Symphony.Extensions.AssociationUISelector.updateFilters(field,fieldOptions.filters);
 								// $field.data('filters',fieldOptions.filters);
@@ -92,7 +96,7 @@ jQuery(function($) {
 						$(document).on('change.conditional-fields','*[name="fields['+field+']"],*[name="fields['+field+'][]"]',{'value':object.condition[field],'options':object},processCondition);
 
 						//in case this is already a set value trigger a change event to check
-						$('*[name="fields['+field+']"],*[name="fields['+field+'][]"]').trigger('change.conditional-fields'); 
+						$('*[name="fields['+field+']"],*[name="fields['+field+'][]"]').trigger('change.conditional-fields',[ false ]); 
 					}
 				}
 			});
