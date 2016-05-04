@@ -52,7 +52,7 @@ jQuery(function($) {
 						if ($field.hasClass('field-dynamictextgroup')){
 							for(var key in fieldOptions.key) {
 								$key = $field.find('.frame li.dtg .field-key').filter(function() { return $(this).val() === fieldOptions.key[key] });
-								console.log($key);
+								// console.log($key);
 								if ($key.length == 0){
 									if ($field.find('.frame li.dtg .field-key').eq(0).val() == ""){
 										//just place in the first item
@@ -65,7 +65,7 @@ jQuery(function($) {
 										$field.find('.frame li.template').before($newItem);
 									}
 								}
-								console.log(fieldOptions.key[key]);
+								// console.log(fieldOptions.key[key]);
 							}
 						}
 
