@@ -83,7 +83,11 @@ jQuery(function($) {
 
 	$(document).on('ready.conditional-fields', function() {
 		try {
-
+			$startOnLoad = false;
+			$new = window.location.pathname.substr(-4,3);
+			if ($new == 'new'){
+				$startOnLoad = true;
+			}
 			if (typeof(Symphony.ConditionalFields) == 'undefined')
 				return;
 
@@ -96,7 +100,7 @@ jQuery(function($) {
 						$(document).on('change.conditional-fields','*[name="fields['+field+']"],*[name="fields['+field+'][]"]',{'value':object.condition[field],'options':object},processCondition);
 
 						//in case this is already a set value trigger a change event to check
-						$('*[name="fields['+field+']"],*[name="fields['+field+'][]"]').trigger('change.conditional-fields',[ false ]); 
+						$('*[name="fields['+field+']"],*[name="fields['+field+'][]"]').trigger('change.conditional-fields',[ $startOnLoad ]); 
 					}
 				}
 			});
