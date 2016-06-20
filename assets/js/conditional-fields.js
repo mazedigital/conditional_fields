@@ -49,6 +49,22 @@ jQuery(function($) {
 					} else {
 						$field.show();
 
+						if ($field.hasClass('field-select')){
+							if (typeof($field.data('original-options')) == 'undefined'){
+								$field.data('original-options',$field.find('select option'));
+							}
+
+							var $select = $field.find('select');
+							if (typeof(fieldOptions.options) !== 'undefined'){
+								$select.empty()
+								for(var key in fieldOptions.options) {
+									$select.append('<option value="'+ fieldOptions.options[key] +'">' + fieldOptions.options[key] + '</option>')
+								}
+							} else {
+								$select.html($field.data('original-options'));
+							}
+						}
+
 						if ($field.hasClass('field-dynamictextgroup')){
 							for(var key in fieldOptions.key) {
 								$key = $field.find('.frame li.dtg .field-key').filter(function() { return $(this).val() === fieldOptions.key[key] });
