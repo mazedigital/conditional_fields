@@ -84,7 +84,7 @@ jQuery(function($) {
 								// console.log(fieldOptions.key[key]);
 							}
 						}
-
+						// console.log($field);
 						if ($field.hasClass('field-association') && processFilters){
 							if (fieldOptions.filters){
 								Symphony.Extensions.AssociationUISelector.updateFilters(field,fieldOptions.filters);
@@ -94,6 +94,9 @@ jQuery(function($) {
 					}
 				}
 			}
+		}
+		else{
+			// console.log('no');
 		}
 	}
 
@@ -105,6 +108,8 @@ jQuery(function($) {
 				startOnLoad = true;
 			}
 
+			// Symphony.Extensions.AssociationUISelector.updateFilters('28',fieldOptions.filters);
+
 			if (typeof(Symphony.ConditionalFields) == 'undefined')
 				return;
 
@@ -115,6 +120,11 @@ jQuery(function($) {
 				for(var field in object.condition) {
 					if(object.condition.hasOwnProperty(field)){
 						$(document).on('change.conditional-fields','*[name="fields['+field+']"],*[name="fields['+field+'][]"]',{'value':object.condition[field],'options':object},processCondition);
+						
+						// console.log(object.condition);
+						if(object.condition.type == 'Article'){
+							$(document).ready('*[name="fields['+field+']"],*[name="fields['+field+'][]"]',{'value':object.condition[field],'options':object},processCondition);
+						}
 
 						//in case this is already a set value trigger a change event to check
 						$('*[name="fields['+field+']"],*[name="fields['+field+'][]"]').trigger('change.conditional-fields',[ startOnLoad ]); 
@@ -122,7 +132,9 @@ jQuery(function($) {
 				}
 			});
 
-		} catch (e) {}
+		} catch (e) {
+			console.log(e);
+		}
 	});
 
 },(jQuery));
