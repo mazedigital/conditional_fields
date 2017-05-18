@@ -45,7 +45,7 @@ class extension_conditional_fields extends Extension {
 			);
 
 			// $page->addStylesheetToHead($assets_path . '/admin.css', 'all', $LOAD_NUMBER++);
-			$page->addScriptToHead($assets_path . '/js/conditional-fields.js', $LOAD_NUMBER++);
+			$page->addScriptToHead($assets_path . '/js/conditional-fields.js?' . ExtensionManager::fetchInstalledVersion('conditional_fields'), $LOAD_NUMBER++);
 		}
 		
 	}

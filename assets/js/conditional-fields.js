@@ -49,6 +49,22 @@ jQuery(function($) {
 					} else {
 						$field.show();
 
+						if ($field.hasClass('field-select')){
+							if (typeof($field.data('original-options')) == 'undefined'){
+								$field.data('original-options',$field.find('select option'));
+							}
+
+							var $select = $field.find('select');
+							if (typeof(fieldOptions.options) !== 'undefined'){
+								$select.empty()
+								for(var key in fieldOptions.options) {
+									$select.append('<option value="'+ fieldOptions.options[key] +'">' + fieldOptions.options[key] + '</option>')
+								}
+							} else {
+								$select.html($field.data('original-options'));
+							}
+						}
+
 						if ($field.hasClass('field-dynamictextgroup')){
 							for(var key in fieldOptions.key) {
 								$key = $field.find('.frame li.dtg .field-key').filter(function() { return $(this).val() === fieldOptions.key[key] });
@@ -83,11 +99,13 @@ jQuery(function($) {
 
 	$(document).on('ready.conditional-fields', function() {
 		try {
-			$startOnLoad = false;
+
+			var startOnLoad = false;
 			$new = window.location.pathname.substr(-4,3);
 			if ($new == 'new'){
-				$startOnLoad = true;
+				startOnLoad = true;
 			}
+
 			if (typeof(Symphony.ConditionalFields) == 'undefined')
 				return;
 
@@ -100,7 +118,7 @@ jQuery(function($) {
 						$(document).on('change.conditional-fields','*[name="fields['+field+']"],*[name="fields['+field+'][]"]',{'value':object.condition[field],'options':object},processCondition);
 
 						//in case this is already a set value trigger a change event to check
-						$('*[name="fields['+field+']"],*[name="fields['+field+'][]"]').trigger('change.conditional-fields',[ $startOnLoad ]); 
+						$('*[name="fields['+field+']"],*[name="fields['+field+'][]"]').trigger('change.conditional-fields',[ startOnLoad ]); 
 					}
 				}
 			});
