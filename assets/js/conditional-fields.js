@@ -99,12 +99,9 @@ jQuery(function($) {
 
 	$(document).on('ready.conditional-fields', function() {
 		try {
-
-			var startOnLoad = false;
+			
+			var startOnLoad = true;
 			$new = window.location.pathname.substr(-4,3);
-			if ($new == 'new'){
-				startOnLoad = true;
-			}
 
 			if (typeof(Symphony.ConditionalFields) == 'undefined')
 				return;
