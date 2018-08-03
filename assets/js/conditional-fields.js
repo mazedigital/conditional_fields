@@ -14,14 +14,17 @@ jQuery(function($) {
 		$('.field').find('.alt-label').remove();
 		$('.field').find('.original-label').show();
 
-		if ($this.val() == event.data.value){
+		if (!event.data.skipcheck){
 			event.stopImmediatePropagation();
+		}
+
+		if (event.data.skipcheck || (typeof($this)!== 'undefined' && $this.val() == event.data.value)){
 
 			//check if there are multiple conditions if so verify all of them meet the criteria
-			// console.log('condition triggered');
 
 			//process each field
 			for(var field in event.data.options) {
+
 				if(event.data.options.hasOwnProperty(field)){
 					if (field == 'condition') continue;
 
@@ -86,7 +89,16 @@ jQuery(function($) {
 						}
 
 						if ($field.hasClass('field-association') && processFilters){
+
 							if (fieldOptions.filters){
+
+								for (filter in fieldOptions.filters) {  
+								  if (fieldOptions.filters[filter]=="{entryid}"){
+								  	fieldOptions.filters[filter] = window.location.pathname.split('/')[5]
+								  }
+								}
+
+								console.log(fieldOptions.filters);
 								Symphony.Extensions.AssociationUISelector.updateFilters(field,fieldOptions.filters);
 								// $field.data('filters',fieldOptions.filters);
 							}
@@ -110,7 +122,14 @@ jQuery(function($) {
 
 			//register for on change events for each field which is conditional
 			$(Symphony.ConditionalFields).each(function(index,object){
+
+				if (!object.condition){
+					processCondition({'data':{'options':object,'skipcheck':true}},true);
+					return;
+				}
+
 				for(var field in object.condition) {
+
 					if(object.condition.hasOwnProperty(field)){
 						$(document).on('change.conditional-fields','*[name="fields['+field+']"],*[name="fields['+field+'][]"]',{'value':object.condition[field],'options':object},processCondition);
 
